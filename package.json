@@ -1,0 +1,27 @@
+{
+  "name": "ioubot",
+  "version": "1.0.0",
+  "description": "IOUBot for Slack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexGagne/ioubot.git"
+  },
+  "keywords": [
+    "iou",
+    "bot",
+    "slack"
+  ],
+  "author": "Alex Gagné <alex.gagne@polymtl.ca>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlexGagne/ioubot/issues"
+  },
+  "homepage": "https://github.com/AlexGagne/ioubot#readme",
+  "dependencies": {
+    "botkit": "^0.2.0"
+  }
+}
