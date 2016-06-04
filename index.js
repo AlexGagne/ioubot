@@ -48,11 +48,11 @@ controller.hears(['hello', 'hi'], 'direct_message,direct_mention,mention', funct
 });
 
 controller.hears('(.*) owes (.*) (.*)', 'direct_message,direct_mention,mention', function(bot, message) {
-    bot.reply(message, "I hear you");
 
-    /*controller.startPrivateConversation(message, function(err, convo)
+    controller.startConversation(message, function(err, convo)
     {
-        var ownee = message.match[1];
+        convo.say("I hear you");
+        /*var ownee = message.match[1];
         var owner = message.match[2];
         var amount_owned = message.match[3];
         var isOwneeAUser = false;
@@ -75,8 +75,8 @@ controller.hears('(.*) owes (.*) (.*)', 'direct_message,direct_mention,mention',
             convo.stop();
         }
 
-        convo.say(ownee + " now owes " + amount_owned + " to " + owner);
-    });*/
+        convo.say(ownee + " now owes " + amount_owned + " to " + owner);*/
+    });
 });
 
 controller.hears('open the (.*) doors',['direct_message,direct_mention,mention'],function(bot,message) {
