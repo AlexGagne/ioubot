@@ -13,8 +13,13 @@ if (!process.env.token) {
     process.exit(1);
 }
 
+// Required for Slack Bot
 var Botkit = require('./node_modules/botkit/lib/Botkit.js');
 var request = require('request');
+
+// Required for Rest API
+var express = require('express');
+var app = express();
 
 var controller = Botkit.slackbot({
     debug: true,
@@ -23,6 +28,35 @@ var controller = Botkit.slackbot({
 var bot = controller.spawn({
     token: process.env.token
 }).startRTM();
+
+
+
+// This responds a POST request for the homepage
+app.post('/api/create-event', function (req, res) {
+   console.log("Got a POST request for the homepage");
+
+   // Prepare output in JSON format
+   response = {
+       first_name:req.body.first_name,
+       last_name:req.body.last_name
+   };
+   console.log(response);
+   res.send(JSON.stringify(response));
+});
+
+var server = app.listen(8081, function () {
+
+  var host = server.address().address
+  var port = server.address().port
+
+  console.log("Example app listening at http://%s:%s", host, port)
+
+})
+
+app.get('/api/test', function(req, res)
+{
+    res.send('Test Sucessful!');
+});
 
 
 controller.hears(['hello', 'hi'], 'direct_message,direct_mention,mention', function(bot, message) {
@@ -47,58 +81,6 @@ controller.hears(['hello', 'hi'], 'direct_message,direct_mention,mention', funct
     });
 });
 
-controller.hears('(.*) owes (.*) (.*)', 'direct_message,direct_mention,mention', function(bot, message) {
-
-    var ownee = message.match[1];
-    var owner = message.match[2];
-    var amount_owned = parseInt(message.match[3]);
-    var isOwneeAUser = false;
-    var isOwnerAUser = false;
-
-    bot.reply(message, "trying to get every users in the team Slack.");
-
-
-    bot.api.users.list({}, 
-        function(err, res) {
-
-        if (err) {
-            bot.reply(message, "I got an error while trying to get all users: " + err);
-            bot.botkit.log('Failed to get the list of all users :(', err);
-            return;
-        }
-
-        res.members.foreach(function(element)
-        {
-            if(element == ownee)
-            {
-                isOwneeAUser = true;
-            }
-
-            if(element == owner)
-            {
-                isOwnerAUser = true;
-            }
-        });
-
-    });
-
-    if (isNaN(amount_owned)) {
-        bot.reply(message, "I\'d try to add that as debt, but it's not a number");
-    }
-    else if(!isOwneeAUser)
-    {
-        bot.reply(message, "The user that is owed money is not part of this team Slack!");
-    }
-    else if(isOwnerAUser)
-    {
-        bot.reply(message, "The user owes money is not part of this team Slack!");
-    }
-    else
-    {
-        bot.reply(message,ownee + " now owes " + amount_owned + " to " + owner);
-    }
-
-});
 
 controller.hears('open the (.*) doors',['direct_message,direct_mention,mention'],function(bot,message) {
   var doorType = message.match[1]; //match[1] is the (.*) group. match[0] is the entire group (open the (.*) doors). 
