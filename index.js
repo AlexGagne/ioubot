@@ -61,6 +61,7 @@ controller.hears('(.*) owes (.*) (.*)', 'direct_message,direct_mention,mention',
             function(err, res) {
 
             if (err) {
+                convo.say("I got an error while trying to get all users: " + err);
                 bot.botkit.log('Failed to get the list of all users :(', err);
                 return;
             }
