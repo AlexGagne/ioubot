@@ -84,8 +84,6 @@ controller.hears('(.*) owes (.*) (.*)', 'direct_message,direct_mention,mention',
 
     });
 
-    bot.reply(message, "response is " + response);
-
     if (typeof amount_owned != "number") {
         bot.reply(message, "I\'d try to add that as debt, but it's not a number");
     }
