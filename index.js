@@ -54,7 +54,6 @@ controller.hears('(.*) owes (.*) (.*)', 'direct_message,direct_mention,mention',
     var amount_owned = message.match[3];
     var isOwneeAUser = false;
     var isOwnerAUser = false;
-    var response = "";
 
     bot.reply(message, "trying to get every users in the team Slack.");
 
@@ -67,7 +66,21 @@ controller.hears('(.*) owes (.*) (.*)', 'direct_message,direct_mention,mention',
             bot.botkit.log('Failed to get the list of all users :(', err);
             return;
         }
-        response = res;
+
+        var response = JSON.parse(res);
+
+        response.members.foreach(function(element)
+        {
+            if(element == ownee)
+            {
+                isOwneeAUser = true;
+            }
+
+            if(element == owner)
+            {
+                isOwnerAUser = true;
+            }
+        });
 
     });
 
@@ -75,6 +88,14 @@ controller.hears('(.*) owes (.*) (.*)', 'direct_message,direct_mention,mention',
 
     if (typeof amount_owned != "number") {
         bot.reply(message, "I\'d try to add that as debt, but it's not a number");
+    }
+    else if(!isOwneeAUser)
+    {
+        bot.reply(message, "The user that is owed money is not part of this team Slack!");
+    }
+    else if(isOwnerAUser)
+    {
+        bot.reply(message, "The user owes money is not part of this team Slack!");
     }
     else
     {
