@@ -48,6 +48,7 @@ controller.hears(['hello', 'hi'], 'direct_message,direct_mention,mention', funct
 });
 
 controller.hears('(.*) owes (.*) (.*)', 'direct_message,direct_mention,mention', function(bot, message) {
+    bot.reply(message, "I hear you");
 
     controller.startConversation(message, function(err, convo)
     {
