@@ -67,7 +67,7 @@ controller.hears('(.*) owes (.*) (.*)', 'direct_message,direct_mention,mention',
             return;
         }
 
-        convo.say(res);
+        bot.reply(message,res);
 
     });
 
@@ -76,9 +76,9 @@ controller.hears('(.*) owes (.*) (.*)', 'direct_message,direct_mention,mention',
     }
     else
     {
-    convo.say(ownee + " now owes " + amount_owned + " to " + owner);
+        bot.reply(message,ownee + " now owes " + amount_owned + " to " + owner);
     }
-    
+
 });
 
 controller.hears('open the (.*) doors',['direct_message,direct_mention,mention'],function(bot,message) {
