@@ -48,6 +48,7 @@ controller.hears(['hello', 'hi'], 'direct_message,direct_mention,mention', funct
 });
 
 controller.hears('(.*) owes (.*) (.*)', 'direct_message,direct_mention,mention', function(bot, message) {
+    bot.say("I hear you");
 
     controller.startPrivateConversation(message, function(err, convo)
     {
@@ -70,7 +71,6 @@ controller.hears('(.*) owes (.*) (.*)', 'direct_message,direct_mention,mention',
         });
 
         if (typeof amount_owned != "number") {
-            console.log('This is not number');
             convo.say("I\'d try to add that as debt, but it's not a number");
             convo.stop();
         }
