@@ -95,6 +95,9 @@ controller.hears(['uptime', 'identify yourself', 'who are you', 'what is your na
             ':robot_face: I am a bot named <@' + bot.identity.name +
              '>. I have been running for ' + uptime + ' on heroku.');
 
+        bot.reply(message,
+            'This is version 1.0 of ioubot');
+
     });
 
 function formatUptime(uptime) {
