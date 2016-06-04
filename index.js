@@ -49,37 +49,36 @@ controller.hears(['hello', 'hi'], 'direct_message,direct_mention,mention', funct
 
 controller.hears('(.*) owes (.*) (.*)', 'direct_message,direct_mention,mention', function(bot, message) {
 
-    bot.startConversation(message, function(err, convo)
-    {
-        var ownee = message.match[1];
-        var owner = message.match[2];
-        var amount_owned = message.match[3];
-        var isOwneeAUser = false;
-        var isOwnerAUser = false;
+    var ownee = message.match[1];
+    var owner = message.match[2];
+    var amount_owned = message.match[3];
+    var isOwneeAUser = false;
+    var isOwnerAUser = false;
 
-        convo.say("trying to get every users in the team Slack.");
+    bot.reply(message, "trying to get every users in the team Slack.");
 
 
-        bot.api.users.list({}, 
-            function(err, res) {
+    bot.api.users.list({}, 
+        function(err, res) {
 
-            if (err) {
-                convo.say("I got an error while trying to get all users: " + err);
-                bot.botkit.log('Failed to get the list of all users :(', err);
-                return;
-            }
-
-            convo.say(res);
-
-        });
-
-        if (typeof amount_owned != "number") {
-            convo.say("I\'d try to add that as debt, but it's not a number");
-            convo.stop();
+        if (err) {
+            bot.reply(message, "I got an error while trying to get all users: " + err);
+            bot.botkit.log('Failed to get the list of all users :(', err);
+            return;
         }
 
-        convo.say(ownee + " now owes " + amount_owned + " to " + owner);
+        convo.say(res);
+
     });
+
+    if (typeof amount_owned != "number") {
+        bot.reply(message, "I\'d try to add that as debt, but it's not a number");
+    }
+    else
+    {
+    convo.say(ownee + " now owes " + amount_owned + " to " + owner);
+    }
+    
 });
 
 controller.hears('open the (.*) doors',['direct_message,direct_mention,mention'],function(bot,message) {
