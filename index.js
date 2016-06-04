@@ -57,6 +57,9 @@ controller.hears('(.*) owes (.*) (.*)', 'direct_message,direct_mention,mention',
         var isOwneeAUser = false;
         var isOwnerAUser = false;
 
+        convo.say("trying to get every users in the team Slack.");
+
+
         bot.api.users.list({}, 
             function(err, res) {
 
