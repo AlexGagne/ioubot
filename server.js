@@ -1,8 +1,25 @@
-// Required for Rest API
+
+
 var express = require('express');
 var app = express();
 
-/ This responds a POST request for the homepage
+app.set('port', (process.env.PORT || 5000));
+
+app.use(express.static(__dirname + '/public'));
+
+// views is directory for all template files
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+
+app.get('/', function(request, response) {
+  response.render('pages/index');
+});
+
+app.listen(app.get('port'), function() {
+  console.log('Node app is running on port', app.get('port'));
+});
+
+
 app.post('/api/create-event', function (req, res) {
    console.log("Got a POST request for the homepage");
 
@@ -18,13 +35,4 @@ app.post('/api/create-event', function (req, res) {
 app.get('/api/test', function(req, res)
 {
     res.send('Test Sucessful!');
-});
-
-var server = app.listen(8081, function () {
-
-  var host = server.address().address
-  var port = server.address().port
-
-  console.log("Example app listening at http://%s:%s", host, port)
-
 });
