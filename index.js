@@ -25,26 +25,26 @@ var controller = Botkit.slackbot({
     debug: true,
 });
 
+// Path to our public directory
+var pub = __dirname + '/public';
+
+app.use(express.static(pub));
+
 var bot = controller.spawn({
     token: process.env.token
 }).startRTM();
 
 // This responds a POST request for the homepage
 app.post('/api/create-event', function (req, res) {
-   console.log("Got a POST request for the homepage");
+    console.log("Got a POST request for the homepage");
 
-   // Prepare output in JSON format
-   response = {
-       first_name:req.body.first_name,
-       last_name:req.body.last_name
-   };
-   console.log(response);
-   res.send(JSON.stringify(response));
+    // Prepare output in JSON format
+    res.sendFile( pub + "/" + "success.html" );
 });
 
 app.get('/api/test', function(req, res)
 {
-    res.send('Test Sucessful!');
+    res.sendFile( pub + "/" + "success.html" );
 });
 
 var server = app.listen(8081, function () {
