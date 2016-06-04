@@ -67,7 +67,9 @@ controller.hears('(.*) owes (.*) (.*)', 'direct_message,direct_mention,mention',
             return;
         }
 
-        var response = JSON.parse(res);
+        console.log("parsing response");
+
+        var response = JSON.parse(res.body);
 
         response.members.foreach(function(element)
         {
