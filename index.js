@@ -48,12 +48,10 @@ controller.hears(['hello', 'hi'], 'direct_message,direct_mention,mention', funct
 });
 
 controller.hears('(.*) owes (.*) (.*)', 'direct_message,direct_mention,mention', function(bot, message) {
-    bot.reply(message, "I hear you");
 
     bot.startConversation(message, function(err, convo)
     {
-        convo.say("I hear you");
-        /*var ownee = message.match[1];
+        var ownee = message.match[1];
         var owner = message.match[2];
         var amount_owned = message.match[3];
         var isOwneeAUser = false;
@@ -63,7 +61,7 @@ controller.hears('(.*) owes (.*) (.*)', 'direct_message,direct_mention,mention',
             function(err, res) {
 
             if (err) {
-                bot.botkit.log('Failed to add emoji reaction :(', err);
+                bot.botkit.log('Failed to get the list of all users :(', err);
                 return;
             }
 
@@ -76,7 +74,7 @@ controller.hears('(.*) owes (.*) (.*)', 'direct_message,direct_mention,mention',
             convo.stop();
         }
 
-        convo.say(ownee + " now owes " + amount_owned + " to " + owner);*/
+        convo.say(ownee + " now owes " + amount_owned + " to " + owner);
     });
 });
 
