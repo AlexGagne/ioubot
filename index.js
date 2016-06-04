@@ -29,8 +29,6 @@ var bot = controller.spawn({
     token: process.env.token
 }).startRTM();
 
-
-
 // This responds a POST request for the homepage
 app.post('/api/create-event', function (req, res) {
    console.log("Got a POST request for the homepage");
@@ -44,6 +42,11 @@ app.post('/api/create-event', function (req, res) {
    res.send(JSON.stringify(response));
 });
 
+app.get('/api/test', function(req, res)
+{
+    res.send('Test Sucessful!');
+});
+
 var server = app.listen(8081, function () {
 
   var host = server.address().address
@@ -51,16 +54,6 @@ var server = app.listen(8081, function () {
 
   console.log("Example app listening at http://%s:%s", host, port)
 
-});
-
-app.get('/api/test', function(req, res)
-{
-    res.send('Test Sucessful!');
-});
-
-app.get('/', function(req, res)
-{
-    res.send('Test Sucessful!');
 });
 
 controller.hears(['hello', 'hi'], 'direct_message,direct_mention,mention', function(bot, message) {
