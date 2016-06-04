@@ -51,7 +51,7 @@ controller.hears('(.*) owes (.*) (.*)', 'direct_message,direct_mention,mention',
 
     var ownee = message.match[1];
     var owner = message.match[2];
-    var amount_owned = message.match[3];
+    var amount_owned = parseInt(message.match[3]);
     var isOwneeAUser = false;
     var isOwnerAUser = false;
 
@@ -84,7 +84,7 @@ controller.hears('(.*) owes (.*) (.*)', 'direct_message,direct_mention,mention',
 
     });
 
-    if (typeof amount_owned != "number") {
+    if (isNaN(amount_owned)) {
         bot.reply(message, "I\'d try to add that as debt, but it's not a number");
     }
     else if(!isOwneeAUser)
