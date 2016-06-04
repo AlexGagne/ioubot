@@ -54,6 +54,7 @@ controller.hears('(.*) owes (.*) (.*)', 'direct_message,direct_mention,mention',
     var amount_owned = message.match[3];
     var isOwneeAUser = false;
     var isOwnerAUser = false;
+    var response = "";
 
     bot.reply(message, "trying to get every users in the team Slack.");
 
@@ -66,10 +67,11 @@ controller.hears('(.*) owes (.*) (.*)', 'direct_message,direct_mention,mention',
             bot.botkit.log('Failed to get the list of all users :(', err);
             return;
         }
-
-        bot.reply(message,res);
+        response = res;
 
     });
+
+    bot.reply(message, "response is " + response);
 
     if (typeof amount_owned != "number") {
         bot.reply(message, "I\'d try to add that as debt, but it's not a number");
