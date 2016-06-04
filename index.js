@@ -1,88 +1,37 @@
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-           ______     ______     ______   __  __     __     ______
-          /\  == \   /\  __ \   /\__  _\ /\ \/ /    /\ \   /\__  _\
-          \ \  __<   \ \ \/\ \  \/_/\ \/ \ \  _"-.  \ \ \  \/_/\ \/
-           \ \_____\  \ \_____\    \ \_\  \ \_\ \_\  \ \_\    \ \_\
-            \/_____/   \/_____/     \/_/   \/_/\/_/   \/_/     \/_/
-This is a bot built using BotKit to implement IOU functionality
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+var express = require('express');
+var app = express();
 
+app.set('port', (process.env.PORT || 5000));
 
-if (!process.env.token) {
-    console.log('Error: Specify token in environment');
-    process.exit(1);
-}
+app.use(express.static(__dirname + '/public'));
 
-// Required for Slack Bot
-var Botkit = require('./node_modules/botkit/lib/Botkit.js');
-var request = require('request');
+// views is directory for all template files
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
 
-var controller = Botkit.slackbot({
-    debug: true,
+app.get('/', function(request, response) {
+  response.render('pages/index');
 });
 
-var bot = controller.spawn({
-    token: process.env.token
-}).startRTM();
-
-controller.hears(['hello', 'hi'], 'direct_message,direct_mention,mention', function(bot, message) {
-
-    bot.api.reactions.add({
-        timestamp: message.ts,
-        channel: message.channel,
-        name: 'robot_face',
-    }, function(err, res) {
-        if (err) {
-            bot.botkit.log('Failed to add emoji reaction :(', err);
-        }
-    });
-
-
-    controller.storage.users.get(message.user, function(err, user) {
-        if (user && user.name) {
-            bot.reply(message, 'Hello ' + user.name + '!!');
-        } else {
-            bot.reply(message, 'Hello.');
-        }
-    });
+app.listen(app.get('port'), function() {
+  console.log('Node app is running on port', app.get('port'));
 });
 
+app.post('/api/create-event', function (req, res) {
+   /*console.log("Got a POST request for the homepage");
 
-controller.hears('open the (.*) doors',['direct_message,direct_mention,mention'],function(bot,message) {
-  var doorType = message.match[1]; //match[1] is the (.*) group. match[0] is the entire group (open the (.*) doors). 
-  if (doorType === 'pod bay') {
-    return bot.reply(message, 'I\'m sorry, Dave. I\'m afraid I can\'t do that.');
-  }
+   // Prepare output in JSON format
+   response = {
+       first_name:req.body.first_name,
+       last_name:req.body.last_name
+   };
+   console.log(response);
+   res.send(JSON.stringify(response));*/
+
+    res.sendStatus(200);
 });
 
-controller.hears(['uptime', 'identify yourself', 'who are you', 'what is your name'],
-    'direct_message,direct_mention,mention', function(bot, message) {
-
-        var uptime = formatUptime(process.uptime());
-
-        bot.reply(message,
-            ':robot_face: I am a bot named <@' + bot.identity.name +
-             '>. I have been running for ' + uptime + ' on heroku.');
-
-        bot.reply(message,
-            'This is version 1.01 of ioubot');
-
-    });
-
-function formatUptime(uptime) {
-    var unit = 'second';
-    if (uptime > 60) {
-        uptime = uptime / 60;
-        unit = 'minute';
-    }
-    if (uptime > 60) {
-        uptime = uptime / 60;
-        unit = 'hour';
-    }
-    if (uptime != 1) {
-        unit = unit + 's';
-    }
-
-    uptime = uptime + ' ' + unit;
-    return uptime;
-}
+app.get('/api/test', function(req, res)
+{
+    res.send('Test Sucessful!');
+});
