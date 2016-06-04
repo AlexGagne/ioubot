@@ -50,7 +50,7 @@ controller.hears(['hello', 'hi'], 'direct_message,direct_mention,mention', funct
 controller.hears('(.*) owes (.*) (.*)', 'direct_message,direct_mention,mention', function(bot, message) {
     bot.reply(message, "I hear you");
 
-    controller.startConversation(message, function(err, convo)
+    bot.startConversation(message, function(err, convo)
     {
         convo.say("I hear you");
         /*var ownee = message.match[1];
@@ -97,7 +97,7 @@ controller.hears(['uptime', 'identify yourself', 'who are you', 'what is your na
              '>. I have been running for ' + uptime + ' on heroku.');
 
         bot.reply(message,
-            'This is version 1.0 of ioubot');
+            'This is version 1.01 of ioubot');
 
     });
 
