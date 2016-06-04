@@ -58,6 +58,10 @@ app.get('/api/test', function(req, res)
     res.send('Test Sucessful!');
 });
 
+app.get('/', function(req, res)
+{
+    res.send('Test Sucessful!');
+});
 
 controller.hears(['hello', 'hi'], 'direct_message,direct_mention,mention', function(bot, message) {
 
