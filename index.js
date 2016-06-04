@@ -17,44 +17,13 @@ if (!process.env.token) {
 var Botkit = require('./node_modules/botkit/lib/Botkit.js');
 var request = require('request');
 
-// Required for Rest API
-var express = require('express');
-var app = express();
-
 var controller = Botkit.slackbot({
     debug: true,
 });
 
-// Path to our public directory
-var pub = __dirname + '/public';
-
-app.use(express.static(pub));
-
 var bot = controller.spawn({
     token: process.env.token
 }).startRTM();
-
-// This responds a POST request for the homepage
-app.post('/api/create-event', function (req, res) {
-    console.log("Got a POST request for the homepage");
-
-    // Prepare output in JSON format
-    res.sendFile( pub + "/" + "success.html" );
-});
-
-app.get('/api/test', function(req, res)
-{
-    res.sendFile( pub + "/" + "success.html" );
-});
-
-var server = app.listen(8081, function () {
-
-  var host = server.address().address
-  var port = server.address().port
-
-  console.log("Example app listening at http://%s:%s", host, port)
-
-});
 
 controller.hears(['hello', 'hi'], 'direct_message,direct_mention,mention', function(bot, message) {
 
